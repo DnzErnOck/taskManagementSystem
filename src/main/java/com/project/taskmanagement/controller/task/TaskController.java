@@ -29,7 +29,7 @@ public class TaskController extends BaseController {
         taskService.update(updateTaskRequest);
         return answer(HttpStatus.NO_CONTENT);
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable int id){
         taskService.delete(id);
         return answer(HttpStatus.NO_CONTENT);

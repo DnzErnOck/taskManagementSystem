@@ -40,10 +40,12 @@ public class Task extends Base {
     }
     public TaskResponse toResponse(){
         return TaskResponse.builder()
+                .id(getId())
                 .title(title)
                 .description(description)
                 .taskStatus(taskStatus.getLabel())
                 .userName(user.getName())
+                .createdDate(getCreatedDate())
                 .build();
     }
 

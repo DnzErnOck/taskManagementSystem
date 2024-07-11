@@ -1,9 +1,10 @@
 package com.project.taskmanagement.service.user.model;
 
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 @Getter
-public enum RoleType {
+public enum RoleType implements GrantedAuthority {
     USER("Kullanıcı"),
 
     ADMIN("Admin");
@@ -24,5 +25,10 @@ public enum RoleType {
             }
         }
         throw new IllegalArgumentException("No enum constant with label " + label);
+    }
+
+    @Override
+    public String getAuthority() {
+        return name();
     }
 }

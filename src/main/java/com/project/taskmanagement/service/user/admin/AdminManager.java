@@ -8,6 +8,7 @@ import com.project.taskmanagement.repository.user.User;
 import com.project.taskmanagement.repository.user.admin.Admin;
 import com.project.taskmanagement.repository.user.admin.AdminRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,13 +17,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminManager implements AdminService{
     private final AdminRepository repository;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public void create(CreateAdminRequest createAdminRequest) {
+        createAdminRequest.setPassword(passwordEncoder.encode(createAdminRequest.getPassword()));
         repository.save(toEntityAdmin(createAdminRequest));
     }
 
     @Override
     public void update(UpdateAdminRequest updateAdminRequest) {
+        updateAdminRequest.setPassword(passwordEncoder.encode(updateAdminRequest.getPassword()));
         repository.save(toEntityAdmin(updateAdminRequest));
     }
 

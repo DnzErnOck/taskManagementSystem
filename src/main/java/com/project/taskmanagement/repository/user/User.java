@@ -10,7 +10,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -21,7 +24,7 @@ import java.util.List;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder
-public class User extends Base {
+public class User extends Base implements UserDetails {
 
     @Column(name = "name")
     private String name;
@@ -71,5 +74,16 @@ public class User extends Base {
                 .password(response.getPassword())
                 .roleType(RoleType.fromString(response.getRoleType()))
                 .build();
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(roleType);
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
     }
 }

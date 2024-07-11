@@ -1,4 +1,4 @@
-package com.project.taskmanagement.controller.user.request;
+package com.project.taskmanagement.controller.authentication.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,19 +8,12 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class CreateUserRequest {
-    @NotBlank
-    private String name;
-
-    @NotBlank
-    private String surname;
-
-    @NotBlank
+@ToString
+public class SignInRequest {
     @Email
+    @NotBlank
     private String email;
 
     @NotBlank
     private String password;
-
 }
