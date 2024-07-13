@@ -7,6 +7,7 @@ import com.project.taskmanagement.core.exception.NotFoundException;
 import com.project.taskmanagement.core.exception.type.NotFoundExceptionType;
 import com.project.taskmanagement.repository.user.User;
 import com.project.taskmanagement.repository.user.UserRepository;
+import com.project.taskmanagement.service.user.model.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,15 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserManager implements UserService{
     private  final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public void create(CreateUserRequest createUserRequest) {
+    public UserResponse create(CreateUserRequest createUserRequest) {
         createUserRequest.setPassword(passwordEncoder.encode(createUserRequest.getPassword()));
-        repository.save(toEntity(createUserRequest));
+        return repository.save(toEntity(createUserRequest)).toResponse();
     }
 
     @Override
@@ -47,6 +50,7 @@ public class UserManager implements UserService{
     public UserResponse getById(int id) {
         return repository.findById(id).orElseThrow().toResponse();
     }
+
 
 
 
@@ -82,5 +86,16 @@ public class UserManager implements UserService{
         return this.repository.findByEmailIgnoreCase(emailAddress).orElseThrow(() -> new NotFoundException(
                 NotFoundExceptionType.USER_DATA_NOT_FOUND));
     }
+
+    @Override
+    public List<UserResponse> getByRoleType(String roleType) {
+        RoleType type = RoleType.fromString(roleType); // Convert string to RoleType enum
+        List<User> users = repository.findByRoleType(type);
+        List<UserResponse> userResponseList = users.stream()
+                .map(User::toResponse)
+                .collect(Collectors.toList());
+        return userResponseList;
+    }
+
 
 }

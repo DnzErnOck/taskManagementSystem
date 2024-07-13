@@ -4,6 +4,7 @@ import com.project.taskmanagement.controller.BaseController;
 import com.project.taskmanagement.controller.task.request.CreateTaskRequest;
 import com.project.taskmanagement.controller.task.request.UpdateTaskRequest;
 import com.project.taskmanagement.controller.task.response.TaskResponse;
+import com.project.taskmanagement.repository.task.Task;
 import com.project.taskmanagement.service.task.TaskService;
 import com.project.taskmanagement.service.task.model.TaskStatusType;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +45,22 @@ public class TaskController extends BaseController {
         return answer(taskService.getById(id),HttpStatus.OK);
     }
     @GetMapping("/ordered")
-    public ResponseEntity<List<TaskResponse>> getByCreateDateDesc(){
-        return answer(taskService.getByCreateDateDesc(),HttpStatus.OK);
+    public ResponseEntity<List<TaskResponse>> getByCreateDateDesc(@RequestParam(required = false) String sort){
+        List<TaskResponse> tasks;
+        if (sort != null) {
+            tasks = taskService.getAllTasksOrderedByCreateDate(sort);
+        } else {
+            tasks = taskService.getAllTasksOrderedByCreateDate("asc");
+        }
+        return answer(tasks,HttpStatus.OK);
     }
     @GetMapping("/status")
     public ResponseEntity<List<TaskResponse>> getByTaskStatusType(@RequestParam TaskStatusType taskStatusType){
         return answer(taskService.getByTaskStatus(taskStatusType),HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<TaskResponse>> getTasksByUserId(@PathVariable int userId) {
+        return answer(taskService.getTasksByUserId(userId),HttpStatus.OK);
     }
 }

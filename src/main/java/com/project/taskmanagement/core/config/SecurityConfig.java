@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/users/**").permitAll()
                         .requestMatchers("/api/v1/tasks/**").permitAll()
-                        .requestMatchers("/api/v1/admins/**").hasAnyAuthority(RoleType.ADMIN.getLabel())
+                        .requestMatchers("/api/v1/admins/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

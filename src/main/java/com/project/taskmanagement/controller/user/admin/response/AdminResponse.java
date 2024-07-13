@@ -8,6 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class AdminResponse {
+    private int id;
+
     private String name;
 
     private String surname;

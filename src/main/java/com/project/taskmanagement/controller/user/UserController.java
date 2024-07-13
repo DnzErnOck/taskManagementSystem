@@ -18,9 +18,9 @@ import java.util.List;
 public class UserController extends BaseController {
     private final UserService userService;
     @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody CreateUserRequest createUserRequest){
-        userService.create(createUserRequest);
-        return answer(HttpStatus.NO_CONTENT);
+    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest createUserRequest){
+        UserResponse response = userService.create(createUserRequest);
+        return answer(response,HttpStatus.OK);
     }
     @PutMapping
     public ResponseEntity<Void> updateUser(@RequestBody UpdateUserRequest updateUserRequest){
@@ -30,6 +30,11 @@ public class UserController extends BaseController {
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAll(){
         List<UserResponse> responses = userService.getAll();
+        return answer(responses,HttpStatus.OK);
+    }
+    @GetMapping("/roleType")
+    public ResponseEntity<List<UserResponse>> getByRoleType(){
+        List<UserResponse> responses = userService.getByRoleType("kullanıcı");
         return answer(responses,HttpStatus.OK);
     }
     @GetMapping("/{id}")

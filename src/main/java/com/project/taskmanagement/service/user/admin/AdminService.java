@@ -7,7 +7,7 @@ import com.project.taskmanagement.controller.user.admin.response.AdminResponse;
 import java.util.List;
 
 public interface AdminService {
-    void create(CreateAdminRequest adminRequest);
+    AdminResponse create(CreateAdminRequest adminRequest);
     void update(UpdateAdminRequest updateAdminRequest);
     void delete(int id);
     List<AdminResponse> getAll();

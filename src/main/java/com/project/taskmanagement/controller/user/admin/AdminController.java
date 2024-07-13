@@ -19,9 +19,9 @@ public class AdminController extends BaseController {
     private final AdminService adminService;
 
     @PostMapping
-    public ResponseEntity<Void> createAdmin(@RequestBody CreateAdminRequest createAdminRequest){
-        adminService.create(createAdminRequest);
-        return answer(HttpStatus.NO_CONTENT);
+    public ResponseEntity<AdminResponse> createAdmin(@RequestBody CreateAdminRequest createAdminRequest){
+        AdminResponse response = adminService.create(createAdminRequest);
+        return answer(response,HttpStatus.OK);
     }
     @PutMapping
     public ResponseEntity<Void> updateAdmin(@RequestBody UpdateAdminRequest updateAdminRequest){
@@ -38,7 +38,7 @@ public class AdminController extends BaseController {
         AdminResponse response = adminService.getById(id);
         return answer(response,HttpStatus.OK);
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAdmin(@PathVariable int id){
         adminService.delete(id);
         return answer(HttpStatus.NO_CONTENT);

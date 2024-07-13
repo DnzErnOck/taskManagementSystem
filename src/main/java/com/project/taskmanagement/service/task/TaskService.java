@@ -14,8 +14,9 @@ public interface TaskService {
     void delete(int id);
     List<TaskResponse> getAll();
     TaskResponse getById(int id);
+    List<TaskResponse> getTasksByUserId(int userId);
 
-    List<TaskResponse> getByCreateDateDesc();
+    List<TaskResponse> getAllTasksOrderedByCreateDate(String order);
 
     List<TaskResponse> getByTaskStatus(TaskStatusType taskStatusType);
 

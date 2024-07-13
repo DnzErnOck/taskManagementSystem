@@ -46,8 +46,20 @@ public class TaskManager implements TaskService{
     }
 
     @Override
-    public List<TaskResponse> getByCreateDateDesc() {
-        List<Task> taskList = repository.findAllByOrderByCreatedDateDesc();
+    public List<TaskResponse> getTasksByUserId(int userId) {
+        List<Task> taskList = repository.findByUserId(userId);
+        List<TaskResponse> taskResponses =  taskList.stream().map(task -> task.toResponse()).toList();
+        return taskResponses;
+    }
+
+    @Override
+    public List<TaskResponse> getAllTasksOrderedByCreateDate(String order) {
+        List<Task> taskList;
+        if ("asc".equalsIgnoreCase(order)) {
+            taskList = repository.findAllByOrderByCreatedDateAsc();
+        } else {
+            taskList = repository.findAllByOrderByCreatedDateDesc();
+        }
         List<TaskResponse> taskResponses = taskList.stream().map(task -> task.toResponse()).toList();
         return taskResponses;
     }

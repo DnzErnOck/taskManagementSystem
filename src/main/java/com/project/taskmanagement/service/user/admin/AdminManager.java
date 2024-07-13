@@ -19,9 +19,9 @@ public class AdminManager implements AdminService{
     private final AdminRepository repository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public void create(CreateAdminRequest createAdminRequest) {
+    public AdminResponse create(CreateAdminRequest createAdminRequest) {
         createAdminRequest.setPassword(passwordEncoder.encode(createAdminRequest.getPassword()));
-        repository.save(toEntityAdmin(createAdminRequest));
+        return repository.save(toEntityAdmin(createAdminRequest)).toAdminResponse();
     }
 
     @Override
