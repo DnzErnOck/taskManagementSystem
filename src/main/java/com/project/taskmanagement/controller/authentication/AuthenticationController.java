@@ -3,6 +3,7 @@ package com.project.taskmanagement.controller.authentication;
 import com.project.taskmanagement.controller.BaseController;
 import com.project.taskmanagement.controller.authentication.request.SignInRequest;
 import com.project.taskmanagement.controller.authentication.request.SignUpRequest;
+import com.project.taskmanagement.core.exception.AlreadyExistsException;
 import com.project.taskmanagement.core.security.model.JwtToken;
 import com.project.taskmanagement.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
@@ -18,9 +19,13 @@ public class AuthenticationController extends BaseController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    ResponseEntity<Void> signUp(@Valid @RequestBody SignUpRequest request) {
-        authenticationService.signUp(request);
-        return answer(HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequest request) {
+        try {
+            authenticationService.signUp(request);
+            return ResponseEntity.noContent().build();
+        } catch (AlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getAlreadyExistsExceptionType().getMessage());
+        }
     }
 
     @PostMapping("/signin")

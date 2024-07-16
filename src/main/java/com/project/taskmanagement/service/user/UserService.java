@@ -20,4 +20,7 @@ public interface UserService extends UserDetailsService {
     @Transactional
     User getByEmail(String emailAddress);
     List<UserResponse> getByRoleType(String roleType);
+
+    UserResponse updatePassword(int id, String password);
+
 }

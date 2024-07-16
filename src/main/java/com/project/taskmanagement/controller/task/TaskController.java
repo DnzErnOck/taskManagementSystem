@@ -63,4 +63,13 @@ public class TaskController extends BaseController {
     public ResponseEntity<List<TaskResponse>> getTasksByUserId(@PathVariable int userId) {
         return answer(taskService.getTasksByUserId(userId),HttpStatus.OK);
     }
+
+    @GetMapping("taskFiltred")
+    public ResponseEntity<List<TaskResponse>> getTasks(
+            @RequestParam(required = false) Integer userId,
+            @RequestParam(required = false) TaskStatusType status,
+            @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        List<TaskResponse> tasks = taskService.getByUserIdAndStatusWithSort(userId, status, sortOrder);
+        return ResponseEntity.ok(tasks);
+    }
 }

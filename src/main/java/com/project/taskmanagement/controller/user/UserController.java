@@ -47,4 +47,12 @@ public class UserController extends BaseController {
         userService.delete(id);
         return answer(HttpStatus.NO_CONTENT);
     }
+    @PutMapping("/updatePassword")
+    public ResponseEntity<UserResponse> updatePassword(@RequestParam int id, @RequestParam String password) {
+
+        UserResponse response=userService.updatePassword(id, password);
+
+        return answer(response,HttpStatus.OK);
+    }
+
 }

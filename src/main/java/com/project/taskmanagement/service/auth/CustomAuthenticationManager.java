@@ -7,6 +7,7 @@ import com.project.taskmanagement.core.exception.type.NotFoundExceptionType;
 import com.project.taskmanagement.core.security.JwtService;
 import com.project.taskmanagement.core.security.model.JwtToken;
 import com.project.taskmanagement.repository.user.User;
+import com.project.taskmanagement.service.user.UserRules;
 import com.project.taskmanagement.service.user.UserService;
 import com.project.taskmanagement.service.user.admin.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,12 @@ public class CustomAuthenticationManager implements AuthenticationService{
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
-
+    private final UserRules userRules;
 
     @Override
     public void signUp(SignUpRequest request) {
+
+        userRules.existsByEmailAddress(request.getEmail());
         switch (request.getRoleType()) {
             case ADMIN -> this.adminService.create(request.forAdmin());
             case USER -> {

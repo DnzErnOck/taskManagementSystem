@@ -19,5 +19,6 @@ public interface TaskService {
     List<TaskResponse> getAllTasksOrderedByCreateDate(String order);
 
     List<TaskResponse> getByTaskStatus(TaskStatusType taskStatusType);
+    List<TaskResponse> getByUserIdAndStatusWithSort(Integer userId,TaskStatusType status,String sortOrder);
 
 }

@@ -97,5 +97,14 @@ public class UserManager implements UserService{
         return userResponseList;
     }
 
+    @Override
+    public UserResponse updatePassword(int id, String password) {
+        User userEntity = repository.findById(id).orElseThrow();
+        userEntity.setPassword(passwordEncoder.encode(password));
+        return repository.save(userEntity).toResponse();
+    }
+
+
+
 
 }

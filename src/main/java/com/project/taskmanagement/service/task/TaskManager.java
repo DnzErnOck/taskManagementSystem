@@ -71,6 +71,13 @@ public class TaskManager implements TaskService{
         return taskResponses;
     }
 
+    @Override
+    public List<TaskResponse> getByUserIdAndStatusWithSort(Integer userId, TaskStatusType status, String sortOrder) {
+        List<Task> taskList = repository.findByUserIdAndStatusWithSort(userId,status,sortOrder);
+        List<TaskResponse> taskResponses = taskList.stream().map(task -> task.toResponse()).toList();
+        return taskResponses;
+    }
+
     public Task toEntity(CreateTaskRequest createTaskRequest){
         return Task.builder()
                 .title(createTaskRequest.getTitle())
